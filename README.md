@@ -72,7 +72,7 @@ Now it's time to pull some information from the DOM on our own.  In the console,
 
 
 ### Release 2:  Updating the DOM
-The DOM objects' interfaces also provide methods for making changes to the DOM.  For example, we can change the text that appears on the page, add classes to objects, etc.  We can even create new elements and add them to the DOM.  We'll continue to work in the console with our AquaPals page.  Follow along with the code in Figure 3; as we update the DOM, we'll the the changes reflected in the page view.
+The DOM objects' interfaces also provide methods for making changes to the DOM.  For example, we can change the text that appears on the page, add classes to objects, etc.  We can even create new elements and add them to the DOM.  We'll continue to work in the console with our AquaPals page.  Follow along with the code in Figure 3; as we update the DOM, we'll see the changes reflected in the page view.
 
 ```js
 // Change the text inside the element with the id "wordmark".
