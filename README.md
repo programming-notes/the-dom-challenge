@@ -1,22 +1,25 @@
 # The DOM Challenge
 
 ## Summary
-When we visit a webpage, our browser needs to get the content for that page.  The browser requests the content from a server.  When the server receives the request, it sends a response.  If everything is okay, the server returns the HTML for the page.
+Every time we visit a webpage, our browser first sends a request to the server asking for content, and the server sends back a response with the HTML for the page.
 
-The HTML in the server's response is just text.  But, when the browser receives the response, it parses that text into the *document object model*.  DOM, for short.  
+The HTML in the server's response is just text.  But, when the browser receives the response, it parses that text into Javascript objects. Each object represents one HTML element, and they're linked together in a tree structure representing the HTML text.
 
-So, what is the DOM?  If we flip the words around, we could say that the DOM is an object that models a document.  Basically, it's an object that represents the HTML returned by the server.  Recall the Phase 1 challenges where we scraped HTML using Nokogiri.  Nokogiri parsed a string of HTML and returned Ruby objects that represented that HTML.  We had one object to represent the whole document.  Then there were node objects to represent each heading, paragraph, etc.  And we could interact with the objects to get the nodes with a certain class, get their child nodes, etc.
+This collection of objects is known as the *document object model*, or DOM for short.  
 
-The DOM is very similar.  The browser parses HTML into an object, the DOM, and we're able to interact with that object.  We can access nodes with specific classes, get their child nodes, etc.  The same things we did with the Nokogiri objects.  In the browser, we interact with the DOM via JavaScript.  Let's see how this works.
+If we flip the words around, we could say that the DOM models a document. Typically you start interacting with the DOM by using a variable called `document` which represents the "root node" — the node that is the parent of all the other HTML nodes below it. 
 
+Recall the Phase 1 challenges where we scraped HTML using Nokogiri.  Nokogiri parsed a string of HTML and returned Ruby objects that represented that HTML.  We had one object to represent the whole document, and you used it to call things like `.css` to search through all the Nokogiri `Node` objects.  There were Nokogiri `Node` objects representing each heading, paragraph, etc.  And we could interact with the objects to get the nodes with a certain class, get their child nodes, etc.
+
+The DOM is very similar. We can access nodes with specific classes, get their child nodes, and more — just like we did with the Nokogiri objects.  In the browser, we interact with the DOM via JavaScript.  Let's see how this works.
 
 ## Releases
 ### Release 0:  HTML, the DOM, and Dev Tools
-To begin exploring the DOM, we'll take a look at an HTML document and how it's represented by the browser.  In this repository is a file `index.html`.  It's a pretty straightforward HMTL document.  We start with the opening `<html>` tag.  Nested within the `<html>` tag are the `<head>` and `<body>` tags.  Then, within the `<body>` tag are nested more tags, `<header>` and `<main>`.  And within each of these tags are more tags.  And so on, until we reach the closing `</html>` tag.  Read through the file to understand the structure of the HTML document.  What elements are there?  How are they organized?
+To begin exploring the DOM, we'll take a look at an HTML document and how it's represented by the browser.  In this repository is a file `index.html`.  It's a pretty straightforward HMTL document.  We start with the opening `<html>` tag.  Nested within the `<html>` tag are the `<head>` and `<body>` tags.  Then, within the `<body>` tag are nested more tags, `<header>` and `<main>`.  Read through the file to understand the structure of the HTML document.  What other elements are there?  How are they organized?
 
-When we understand the structure of the HTML, open `index.html` in a browser.  When we open the file, the browser will receive the text of the document and parse it into the DOM.  In a more or less one-to-one fashion, each HTML element is parsed into a DOM object, and the DOM objects are organized in a tree structure (see [illustration][html5rocks node tree]).
+When we understand the structure of the HTML, open `index.html` in a browser.  When we open the file, the browser will receive the text of the document and parse it into the DOM.  Each HTML element is parsed into a DOM object, and the DOM objects are organized in a tree structure (see [illustration][html5rocks node tree]).
 
-We can explore the DOM tree using our browser's developer tools ([chrome dev tools][]).  If we're using  Chrome, the DOM is represented to us on the "Elements" tab.  The DOM's tree structure is displayed like an outline which we can explore by expanding and collapsing individual branches.  As our cursor moves over a node in the outline, the page view highlights that node.  This is demonstrated in Figure 1.
+We can explore the DOM tree using our browser's developer tools ([chrome dev tools][]).  If we're using  Chrome, the DOM is represented to us on the "Elements" tab.  The DOM's tree structure is displayed like an outline which we can explore visually by expanding and collapsing individual branches.  As our cursor moves over a node in the outline, the page view highlights that node.  This is demonstrated in Figure 1.
 
 ![using dev tools](readme-assets/aquapals-dev-tools.gif)  
 *Figure 1*.  Using Chrome's dev tools to explore the DOM.
@@ -72,7 +75,7 @@ Now it's time to pull some information from the DOM on our own.  In the console,
 
 
 ### Release 2:  Updating the DOM
-The DOM objects' interfaces also provide methods for making changes to the DOM.  For example, we can change the text that appears on the page, add classes to objects, etc.  We can even create new elements and add them to the DOM.  We'll continue to work in the console with our AquaPals page.  Follow along with the code in Figure 3; as we update the DOM, we'll see the changes reflected in the page view.
+DOM objects also provide methods for making changes to the DOM.  For example, we can change the text that appears on the page, add classes to objects, etc.  We can even create new elements and add them to the DOM.  We'll continue to work in the console with our AquaPals page.  Follow along with the code in Figure 3; as we update the DOM, we'll see the changes reflected in the page view.
 
 ```js
 // Change the text inside the element with the id "wordmark".
@@ -105,12 +108,12 @@ footer.style.paddingBottom = "6em";
 *Figure 3*.  Updating the DOM through JavaScript.
 
 
-We're going to make some updates on our own, but before we do, refresh the page.  What happened to our changes?  They're gone.  Why?  Remember, when the page loads, the browser parses the document into the DOM.  The DOM is an object that represents the HTML, but it is not the HTML.  When we edit the DOM, we're only changing the objects in the DOM tree.  We're not editing the HTML file from which the DOM was built.  When we refresh the page, the browser reparses the file and builds a new DOM tree.
+We're going to make some updates on our own, but before we do, refresh the page.  What happened to our changes?  They're gone!  Why?  Remember, when the page loads, the browser parses the document into the DOM.  The DOM is an object that represents the HTML, but it is not the HTML.  When we edit the DOM, we're only changing the objects in the DOM tree.  We're not editing the HTML file from which the DOM was built.  When we refresh the page, the browser re-parses the file and builds a new DOM tree.
 
 Now it's time to update the DOM on our own.  In the console, make the following changes.
 
 - Change the name of the "Akindynos Clownfish" to be "Clownfish".
-- Add another fish to the list.  The image file is provided, and the elements to add would look like this in HTML.
+- Add another fish to the list using only Javascript (no editing the HTML file).  The image file is provided, and the elements to add would look like this in HTML.
 
   ```
   <li id="fish-9" class="fish-list-card flex-column light">
